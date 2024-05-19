@@ -8,9 +8,9 @@ def fetch_products(category):
     products = Product.objects.filter(category=category).values('name', 'sku','main_image_url','price')
     return products
 
-def fetch_product_detail(sku):
-    product = Product.objects.filter(sku=sku).values().first()
-    images = Image.objects.filter(sku=sku).values_list('image_url', flat=True)
+def fetch_product_detail(name):
+    product = Product.objects.filter(name=name).values().first()
+    images = Image.objects.filter(name=name).values_list('image_url', flat=True)
     return product,images
 
 def search_product(search_variable):

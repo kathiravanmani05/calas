@@ -8,8 +8,8 @@ class Product(Base):
     __tablename__ = 'product'
 
     sku = Column(String(50))
-    url = Column(String(255), primary_key=True)
-    name = Column(String(255))
+    url = Column(String(255))
+    name = Column(String(255), primary_key=True)
     price = Column(DECIMAL(10, 2))
     description = Column(Text)
     category = Column(String(100))
@@ -23,7 +23,7 @@ class Image(Base):
     __tablename__ = 'images'
 
     image_url = Column(String(255), primary_key=True)
-    url = Column(String(255), ForeignKey('product.url'))
+    name = Column(String(255), ForeignKey('product.name'))
 
 # Define your database connection
 engine = create_engine('mariadb+mariadbconnector://calas:T2iEYtVA6QdaQIEe@localhost/calas')

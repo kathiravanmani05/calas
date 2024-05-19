@@ -21,9 +21,9 @@ def category_view(request, category,page=1):
     except EmptyPage:
         items = paginator.page(paginator.num_pages)
     return render(request, 'category.html',{'products':items,'page':items,'page_count':page_count,'total_products':total_products})
-def product_detail(request, category,sku):
-    
-    product,images = fetch_product_detail(sku)
+
+def product_detail(request, category,name):
+    product,images = fetch_product_detail(name)
     return render(request, 'product_detail.html',{'product':product,'images':images})
 
 def search(request):

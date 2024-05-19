@@ -6,8 +6,8 @@ import os
 
 class Product(models.Model):
     sku = models.CharField(max_length=50, unique=True)
-    url = models.CharField(max_length=255, primary_key=True)
-    name = models.CharField(max_length=255)
+    url = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, primary_key=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField()
     category = models.CharField(max_length=100)
@@ -21,7 +21,7 @@ class Product(models.Model):
 
 class Image(models.Model):
     image_url = models.CharField(max_length=255, primary_key=True)
-    url = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
 
     # Define the ForeignKey relationship
     product = models.ForeignKey(Product, on_delete=models.CASCADE)

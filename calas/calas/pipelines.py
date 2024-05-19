@@ -23,7 +23,7 @@ class CalasPipeline:
 
                 # Update the record if found, else create a new record
                 if record:
-                    self.logger.info(f"Updating existing product with URL: {item['url']}")
+                    self.logger.info(f"Updating existing product with URL: {item['name']}")
                     record.price = item['price']
                     record.name = item['name']
                     record.category = item['category_id']
@@ -32,7 +32,7 @@ class CalasPipeline:
                     record.main_image_url = main_image_url
                     spider.logger.info("Record updated successfully.")
                 else:
-                    self.logger.info(f"Creating new product with URL: {item['url']}")
+                    self.logger.info(f"Creating new product with URL: {item['name']}")
                     new_record = Product(
                         sku=item['sku'],
                         url=item['url'],
@@ -52,13 +52,13 @@ class CalasPipeline:
                     image_value = image.split('/')[-1]
                     img_record = session.query(Image).filter_by(image_url=image_value).first()
                     if not img_record:
-                        self.logger.info(f"Creating new image record for URL: {item['url']} with image URL: {image_value}")
-                        image_record = Image(image_url=image_value, url=item['url'])
+                        self.logger.info(f"Creating new image record for URL: {item['name']} with image URL: {image_value}")
+                        image_record = Image(image_url=image_value, name=item['name'])
                         session.add(image_record)
                         session.commit()
                         spider.logger.info("Image record created successfully.")
                     else:
-                        self.logger.info(f"Updating existing image record for URL: {item['url']} with image URL: {image_value}")
+                        self.logger.info(f"Updating existing image record for URL: {item['name']} with image URL: {image_value}")
                         img_record.image_url = image_value
                         session.add(img_record)
                         session.commit()
