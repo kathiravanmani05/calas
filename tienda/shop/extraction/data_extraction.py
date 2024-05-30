@@ -21,7 +21,8 @@ def search_product(search_variable):
         product = Product.objects.filter(name__icontains=search_variable).values().first()
     if product:
         sku = product.get('sku')
+        name = product.get('name')
     else:
         return None, None
-    images = Image.objects.filter(sku=sku).values_list('image_url', flat=True)
+    images = Image.objects.filter(name=name).values_list('image_url', flat=True)
     return product,images
