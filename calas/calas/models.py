@@ -10,7 +10,7 @@ class Product(Base):
     sku = Column(String(50))
     url = Column(String(255))
     name = Column(String(255), primary_key=True)
-    price = Column(DECIMAL(10, 3))
+    price = Column(String(8))
     description = Column(Text)
     #main_category = Column(String(100))
     Material = Column(String(100))
