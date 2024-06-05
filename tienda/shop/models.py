@@ -8,7 +8,7 @@ class Product(models.Model):
     sku = models.CharField(max_length=50, unique=True)
     url = models.CharField(max_length=255)
     name = models.CharField(max_length=255, primary_key=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=3)
     description = models.TextField()
     #main_category = models.CharField(max_length=100)
     Material = models.CharField(max_length=100)  # If "Material" is a field you want to include
