@@ -25,7 +25,7 @@ class CalasPipeline:
                 weight = json.dumps(item['weight']) if item['weight'] else None
                 dimensions = json.dumps(item['dimensions']) if item['dimensions'] else None
                 stock = json.dumps(item['stock']) if item['stock'] else None
-                pdf = json.dumps(item['pdf']) if item['pdf'] else None
+                pdf = item['pdf'] if item['pdf'] else None
 
                 # Query the database for the record you want to update
                 record = session.query(Product).filter_by(url=item['url']).first()
