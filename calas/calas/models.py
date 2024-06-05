@@ -39,8 +39,8 @@ class Category(Base):
     name = Column(String(255), ForeignKey('product.name'), primary_key=True)
 
 # Define your database connection
-#engine = create_engine('mariadb+mariadbconnector://calas:T2iEYtVA6QdaQIEe@localhost/calas')
-engine = create_engine('mysql://root:root@localhost/calas')
+engine = create_engine('mariadb+mariadbconnector://calas:T2iEYtVA6QdaQIEe@localhost/calas')
+#engine = create_engine('mysql://root:root@localhost/calas')
 
 # Create the tables
 Base.metadata.create_all(engine)

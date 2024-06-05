@@ -6,8 +6,8 @@ from calas.models import Image, Product,Category
 class CalasPipeline:
     def __init__(self):
         # Create a connection to the database
-        #self.engine = create_engine('mariadb+mariadbconnector://calas:T2iEYtVA6QdaQIEe@localhost/calas')
-        self.engine = create_engine('mysql://root:root@localhost/calas')
+        self.engine = create_engine('mariadb+mariadbconnector://calas:T2iEYtVA6QdaQIEe@localhost/calas')
+        #self.engine = create_engine('mysql://root:root@localhost/calas')
         self.Session = sessionmaker(bind=self.engine)
         logging.basicConfig(level=logging.INFO)
         self.logger = logging.getLogger(__name__)
