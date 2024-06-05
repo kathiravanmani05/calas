@@ -29,7 +29,7 @@ class ProdSpider(scrapy.Spider):
     def check_file_in_folder(self, folder, file):
         return os.path.exists(os.path.join(folder, file))
 
-    def save_image(self, temp_images, folder="Image"):
+    def save_image(self, temp_images, folder="Images"):
         for url in temp_images:
             abs_url = url
             if not os.path.exists(folder):
