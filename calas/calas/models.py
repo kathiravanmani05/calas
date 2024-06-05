@@ -12,7 +12,13 @@ class Product(Base):
     name = Column(String(255), primary_key=True)
     price = Column(DECIMAL(10, 2))
     description = Column(Text)
-    category = Column(String(100))
+    main_category = Column(String(100))
+    Material = Column(String(100))
+    color = Column(String(50))
+    Weight = Column(String(50))
+    Size = Column(String(50))
+    Stock = Column(String(50))
+    pdf = Column(String(255))
     LastScrappeddate = Column(DateTime, onupdate=func.now())
     Updateddate = Column(DateTime, onupdate=func.now())
     Createddate = Column(DateTime, default=func.now())
@@ -25,9 +31,16 @@ class Image(Base):
     image_url = Column(String(255), primary_key=True)
     name = Column(String(255), ForeignKey('product.name'))
 
+class Category(Base):
+    __tablename__ = 'categories'
+
+    #id = Column(Integer, primary_key=True, autoincrement=True)
+    category = Column(String(255), primary_key=True)
+    name = Column(String(255), ForeignKey('product.name'), primary_key=True)
+
 # Define your database connection
-engine = create_engine('mariadb+mariadbconnector://calas:T2iEYtVA6QdaQIEe@localhost/calas')
-#engine = create_engine('mysql://root:root@localhost/calas')
+#engine = create_engine('mariadb+mariadbconnector://calas:T2iEYtVA6QdaQIEe@localhost/calas')
+engine = create_engine('mysql://root:root@localhost/calas')
 
 # Create the tables
 Base.metadata.create_all(engine)

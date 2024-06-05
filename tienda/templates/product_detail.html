@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     {% load static %}
     <title>Product page</title>
@@ -100,9 +101,10 @@
     </style>
 </head>
 <body>
+    
     <div class="container-fluid">
         <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-            <a style="color: white; font-size: 25px;font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;" class="navbar-brand" href="#">Calas</a>
+            <a style="color: white; font-size: 25px;font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;" class="navbar-brand" href="#">Sillas Taburetes Sillas taburetes Ltd</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -132,19 +134,24 @@
 
     </div>
         </nav>
-
     <div class="container-fluid">
         <h1>{{ product.name }}</h1>
         <p>{{ product.description }}</p>
         {% if product.original_price %}
         <p> <b>Product Price : </b>{{ product.original_price }}</p>
         {% endif %}
-        <p> <b>Product Price : </b>{{ product.price }}</p>
+
+        {% if product.pdf %}
+            <a href="{% static 'Pdf/' %}{{ product.pdf }}" target="_blank" style="text-decoration: none; color: #007bff; font-weight: bold; border: 2px solid #007bff; padding: 8px 12px; border-radius: 5px; background-color: #ffffff;">ASSEMBLY MANUAL HERE</a><br>
+        {% endif %}<br><br>
+
+        <p><b>Product Price:</b> {{ product.price }}</p>
         <p> <b>Product SKU :</b>{{ product.sku }}</p>
+        
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page"><a href="/{{ product.category }}">{{ product.category}} </a></li>
+                <li class="breadcrumb-item active" aria-current="page"><a href="/{{category}}">{{category}} </a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li> <!-- Current page -->
             </ol>    
         </nav>
@@ -168,8 +175,15 @@
                  
         <!-- Add more thumbnail images as needed -->
     </div>  
+    
     <div class="content-container">
         <strong><h2>Product Information</h2></strong>  
+
+        
+        <p><strong>Category:</strong> {{ Categories|join:", " }}</p>
+
+        
+
         {% if product.Size %} 
         <p><strong>Size:</strong> {{ product.Size }}</p>
         {%endif%}

@@ -47,6 +47,25 @@ class ProdSpider(scrapy.Spider):
             else:
                 print(f"Failed to download image from {abs_url}")
 
+    def save_pdf(self, temp_pdfs, folder="Pdf"):
+            abs_url = temp_pdfs
+            if not os.path.exists(folder):
+                os.makedirs(folder)
+            
+            file_name = abs_url.split('/')[-1]
+            if self.check_file_in_folder(folder, file_name):
+                return
+            
+            filepath = os.path.join(folder, file_name)
+            
+            response = requests.get(abs_url)
+            if response.status_code == 200:
+                with open(filepath, 'wb') as f:
+                    f.write(response.content)
+                    print(f"PDF saved as {filepath}")
+            else:
+                print(f"Failed to download PDF from {abs_url}")
+
     def data_parser(self, response):
         title = response.xpath('//*[@class="product_title entry-title"]/text()').extract_first()
         descriptions = response.xpath('//*[@class="woocommerce-product-details__short-description"]//text()').extract()
@@ -55,24 +74,43 @@ class ProdSpider(scrapy.Spider):
         price = response.xpath('//*[@class="price"]/span/bdi/text()').extract_first()
         images = response.xpath('//*[@class="woocommerce-product-gallery__image"]/@data-thumb').extract()
         self.save_image(images)
-        
-        allowed_categories = [
-            'Poliester', 'Spandex', 'Tulip', 'Taburete', 'Juegos', 'Mesa', 'Mobiliario niño', 
-            'Eames', 'Lazo', 'Manteles', 'Toldo', 'Sillas', 'Mobiliario Hogar', 'Mesas', 
-            'Oficina', 'Alto', 'Pisos', 'Fijas', 'Plegables'
-        ]
-        
-        categories = response.xpath('//*[@class="posted_in"]//text()').extract()
-        categories_cleaned = [item.strip() for item in categories if item.strip() and item.strip() in allowed_categories]
+        weight = response.xpath('//*[@class="woocommerce-product-attributes-item woocommerce-product-attributes-item--weight"]/td/text()').extract_first()
+        if weight is None:
+            weight = response.xpath('//*[contains(text(),"Peso:")]/text()').extract_first()
+            if weight:
+                weight = weight.replace('Peso:','')
+            else:
+               weight = None 
+        dimensions = response.xpath('//*[@class="woocommerce-product-attributes-item woocommerce-product-attributes-item--dimensions"]/td/text()').extract_first()
+        dimensions = response.xpath('//*[contains(text(),"Dimensión del producto")]/text()').extract_first()
+        if dimensions is None: 
+            if dimensions:
+                dimensions = dimensions.replace('Dimensión del producto','')
+            else:
+               dimensions = None
+        material = response.xpath('//*[@class="woocommerce-product-attributes-item woocommerce-product-attributes-item--attribute_material"]/td//text()').extract_first()
+        color = response.xpath('//*[@class="woocommerce-product-attributes-item woocommerce-product-attributes-item--attribute_color"]/td//text()').extract_first()
+        stock = response.xpath('//*[@class="summary-inner "]//*[contains(@class, "stock")]/text()').extract_first()
+        pdfs = response.xpath('//*[@class="woocommerce-product-details__short-description"]//@href').extract_first()
+        if pdfs:
+            self.save_pdf(pdfs)
 
-        for cat in categories_cleaned:
-            item = {
+        categories = response.xpath('//*[@class="posted_in"]/a/text()').extract()
+
+        item = {
                 'url': response.url,
                 'name': title,
                 'description': description,
                 'sku': sku,
                 'price': price,
-                'category_id': cat,
-                'images': images
+                'category_id': categories,
+                'images': images,
+                'weight':weight,
+                'dimensions':dimensions,
+                'material':material,
+                'color':color,
+                'stock':stock,
+                'pdf':pdfs,
             }
-            yield item
+
+        yield item

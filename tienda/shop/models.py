@@ -10,7 +10,13 @@ class Product(models.Model):
     name = models.CharField(max_length=255, primary_key=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField()
-    category = models.CharField(max_length=100)
+    #main_category = models.CharField(max_length=100)
+    Material = models.CharField(max_length=100)  # If "Material" is a field you want to include
+    color = models.CharField(max_length=50)
+    Weight = models.CharField(max_length=50)
+    Size = models.CharField(max_length=50)
+    Stock = models.CharField(max_length=50)
+    pdf = models.CharField(max_length=255)
     LastScrappeddate = models.DateTimeField(auto_now=True)
     Updateddate = models.DateTimeField(auto_now=True)
     Createddate = models.DateTimeField(auto_now_add=True)
@@ -23,23 +29,13 @@ class Image(models.Model):
     image_url = models.CharField(max_length=255, primary_key=True)
     name = models.CharField(max_length=255)
 
-    # Define the ForeignKey relationship
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-
     class Meta:
         db_table = 'images'
 
+class Category(models.Model):
 
+    category = models.CharField(max_length=255,primary_key=True)
+    name = models.CharField(max_length=255)
 
-    #def getFileName(request, filename):
-    #    now_time = datetime.datetime.now().strftime("%Y%m%d%H:%M:%S")
-    #    new_filename = "%s%s" % (now_time, filename)
-    #    return os.path.join('uploads/', new_filename)
-
-    #class Category(models.Model):
-#    name = models.CharField(max_length=100, primary_key=True)  # Making 'name' the primary key
-#    image = models.ImageField(upload_to='uploads/', null=True, blank=True)
-#    created_at = models.DateTimeField(auto_now_add=True)
-#
-#    def __str__(self):
-#        return self.name
+    class Meta:
+        db_table = 'categories'
