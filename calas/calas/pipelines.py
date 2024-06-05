@@ -17,8 +17,7 @@ class CalasPipeline:
         with self.Session() as session:
             try:
                 main_image_url = item['images'][0].split('/')[-1] if item['images'] else None
-                main_category = item['category_id'][0] if item['category_id'] else None
-                pdf = item['pdf'].split('/')[-1] if item['pdf'] else None
+                #pdf = item['pdf'].split('/')[-1] if item['pdf'] else None
 
                 # Convert lists to JSON strings
                 material = json.dumps(item['material']) if item['material'] else None

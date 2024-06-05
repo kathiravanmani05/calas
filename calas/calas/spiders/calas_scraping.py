@@ -94,6 +94,7 @@ class ProdSpider(scrapy.Spider):
         pdfs = response.xpath('//*[@class="woocommerce-product-details__short-description"]//@href').extract_first()
         if pdfs:
             self.save_pdf(pdfs)
+            pdfs = pdfs.split('/')[-1] if pdfs else None
 
         categories = response.xpath('//*[@class="posted_in"]/a/text()').extract()
 
