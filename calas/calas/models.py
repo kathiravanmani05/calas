@@ -12,7 +12,7 @@ class Product(Base):
     name = Column(String(255), primary_key=True)
     price = Column(DECIMAL(10, 2))
     description = Column(Text)
-    main_category = Column(String(100))
+    #main_category = Column(String(100))
     Material = Column(String(100))
     color = Column(String(50))
     Weight = Column(String(50))
