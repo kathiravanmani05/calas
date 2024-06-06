@@ -81,7 +81,7 @@ class ProdSpider(scrapy.Spider):
                 weight = weight.replace('Peso:','')
             else:
                weight = None 
-        if len(weight) >50:
+        if weight is not None and len(weight) > 50:
             weight = None
         dimensions = response.xpath('//*[@class="woocommerce-product-attributes-item woocommerce-product-attributes-item--dimensions"]/td/text()').extract_first()
         dimensions = response.xpath('//*[contains(text(),"Dimensión del producto")]/text()').extract_first()
