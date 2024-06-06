@@ -16,7 +16,7 @@ class Product(Base):
     Material = Column(String(100))
     color = Column(String(50))
     Weight = Column(String(50))
-    Size = Column(String(50))
+    Size = Column(String(150))
     Stock = Column(String(50))
     pdf = Column(String(255))
     LastScrappeddate = Column(DateTime, onupdate=func.now())
