@@ -90,6 +90,8 @@ class ProdSpider(scrapy.Spider):
                 dimensions = dimensions.replace('Dimensión del producto','')
             else:
                dimensions = None
+        if dimensions is not None and len(dimensions) > 50:
+            dimensions = None
         material = response.xpath('//*[@class="woocommerce-product-attributes-item woocommerce-product-attributes-item--attribute_material"]/td//text()').extract_first()
         color = response.xpath('//*[@class="woocommerce-product-attributes-item woocommerce-product-attributes-item--attribute_color"]/td//text()').extract_first()
         stock = response.xpath('//*[@class="summary-inner "]//*[contains(@class, "stock")]/text()').extract_first()
