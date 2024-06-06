@@ -17,7 +17,6 @@ class CalasPipeline:
         with self.Session() as session:
             try:
                 main_image_url = item['images'][0].split('/')[-1] if item['images'] else None
-                #pdf = item['pdf'].split('/')[-1] if item['pdf'] else None
 
                 # Convert lists to JSON strings
                 material = json.dumps(item['material']) if item['material'] else None
@@ -33,6 +32,7 @@ class CalasPipeline:
                 # Update the record if found, else create a new record
                 if record:
                     self.logger.info(f"Updating existing product with URL: {item['name']}")
+                    record.sku = item['sku']
                     record.price = item['price']
                     record.name = item['name']
                     record.description = item['description']
@@ -78,28 +78,20 @@ class CalasPipeline:
                         session.commit()
                         spider.logger.info("Image record created successfully.")
                     else:
-                        self.logger.info(f"Updating existing image record for URL: {item['name']} with image URL: {image_value}")
-                        img_record.image_url = image_value
-                        session.add(img_record)
-                        session.commit()
-                        spider.logger.info("Image updated.")
+                        self.logger.info(f"Image already exists for URL: {item['name']} with image URL: {image_value}")
 
                 # Handle categories
                 for category in item['category_id']:
                     category_value = category
-                    cat_record = session.query(Category).filter_by(category=category_value).first()
+                    cat_record = session.query(Category).filter_by(category=category_value, name=item['name']).first()
                     if not cat_record:
                         self.logger.info(f"Creating new category record for URL: {item['name']} with category: {category_value}")
-                        cat_record = Category(category=category_value, name=item['name'])
-                        session.add(cat_record)
+                        category_record = Category(category=category_value, name=item['name'])
+                        session.add(category_record)
                         session.commit()
                         spider.logger.info("Category record created successfully.")
                     else:
-                        self.logger.info(f"Updating existing category record for URL: {item['name']} with category: {category_value}")
-                        cat_record.category = category_value
-                        session.add(cat_record)
-                        session.commit()
-                        spider.logger.info("Category updated.")
+                        self.logger.info(f"Category already exists for URL: {item['name']} with category: {category_value}")
 
             except Exception as e:
                 # Rollback the changes in case of an error
