@@ -14,7 +14,7 @@ class Product(models.Model):
     Material = models.CharField(max_length=100)  # If "Material" is a field you want to include
     color = models.CharField(max_length=50)
     Weight = models.CharField(max_length=50)
-    Size = models.CharField(max_length=50)
+    Size = models.CharField(max_length=150)
     Stock = models.CharField(max_length=50)
     pdf = models.CharField(max_length=255)
     LastScrappeddate = models.DateTimeField(auto_now=True)

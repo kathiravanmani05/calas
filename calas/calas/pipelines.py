@@ -70,15 +70,13 @@ class CalasPipeline:
                 # Handle images
                 for image in item['images']:
                     image_value = image.split('/')[-1]
-                    img_record = session.query(Image).filter_by(image_url=image_value).first()
+                    img_record = session.query(Image).filter_by(image_url=image_value, name=item['name']).first()
                     if not img_record:
-                        self.logger.info(f"Creating new image record for URL: {item['name']} with image URL: {image_value}")
+                        self.logger.info(f"Creating new image record for URL: {item['url']} with image URL: {image_value}")
                         image_record = Image(image_url=image_value, name=item['name'])
                         session.add(image_record)
-                        session.commit()
                         spider.logger.info("Image record created successfully.")
-                    else:
-                        self.logger.info(f"Image already exists for URL: {item['name']} with image URL: {image_value}")
+                session.commit()
 
                 # Handle categories
                 for category in item['category_id']:
